@@ -20,17 +20,17 @@ def Batchnorm(name, axes, inputs, is_training=None, stats_iter=None, update_movi
         # return tf.transpose(result, [0,3,1,2])
 
         # New (super fast but untested) implementation:
-        offset = lib.param(name+'.offset', np.zeros(inputs.get_shape()[1], dtype='float32'))
-        scale = lib.param(name+'.scale', np.ones(inputs.get_shape()[1], dtype='float32'))
+        offset = lib.param(name+'.offset', np.zeros(inputs.get_shape()[1], dtype='int32'))  #float32
+        scale = lib.param(name+'.scale', np.ones(inputs.get_shape()[1], dtype='int32'))      #float32
 
-        moving_mean = lib.param(name+'.moving_mean', np.zeros(inputs.get_shape()[1], dtype='float32'), trainable=False)
-        moving_variance = lib.param(name+'.moving_variance', np.ones(inputs.get_shape()[1], dtype='float32'), trainable=False)
+        moving_mean = lib.param(name+'.moving_mean', np.zeros(inputs.get_shape()[1], dtype='int32'), trainable=False)  #float2
+        moving_variance = lib.param(name+'.moving_variance', np.ones(inputs.get_shape()[1], dtype='int32'), trainable=False)  #floatt32
 
         def _fused_batch_norm_training():
             return tf.nn.fused_batch_norm(inputs, scale, offset, epsilon=1e-5, data_format='NCHW')
         def _fused_batch_norm_inference():
             # Version which blends in the current item's statistics
-            batch_size = tf.cast(tf.shape(inputs)[0], 'float32')
+            batch_size = tf.cast(tf.shape(inputs)[0], 'int32')                #int32
             mean, var = tf.nn.moments(inputs, [2,3], keep_dims=True)
             mean = ((1./batch_size)*mean) + (((batch_size-1.)/batch_size)*moving_mean)[None,:,None,None]
             var = ((1./batch_size)*var) + (((batch_size-1.)/batch_size)*moving_variance)[None,:,None,None]
@@ -79,8 +79,8 @@ def Batchnorm(name, axes, inputs, is_training=None, stats_iter=None, update_movi
         if 0 not in axes:
             print ("WARNING ({}): didn't find 0 in axes, but not using separate BN params for each item in batch".format(name))
             shape[0] = 1
-        offset = lib.param(name+'.offset', np.zeros(shape, dtype='float32'))
-        scale = lib.param(name+'.scale', np.ones(shape, dtype='float32'))
+        offset = lib.param(name+'.offset', np.zeros(shape, dtype='int3232'))          #float32
+        scale = lib.param(name+'.scale', np.ones(shape, dtype='int32'))                   #float32
         result = tf.nn.batch_normalization(inputs, mean, var, offset, scale, 1e-5)
 
 
