@@ -99,7 +99,7 @@ def delete_param_aliases():
 #     )
 
 def print_model_settings(locals_):
-    print "Uppercase local vars:"
+    print ("Uppercase local vars:")
     all_vars = [(k,v) for (k,v) in locals_.items() if (k.isupper() and k!='T' and k!='SETTINGS' and k!='ALL_SETTINGS')]
     all_vars = sorted(all_vars, key=lambda x: x[0])
     for var_name, var_value in all_vars:
