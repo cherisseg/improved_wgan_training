@@ -43,8 +43,8 @@ def Deconv2D(
                 low=-stdev * np.sqrt(3),
                 high=stdev * np.sqrt(3),
                 size=size
-            ).astype('float32')
-
+            ).astype('int32')
+           #).astype('float32')
         stride = 2
         fan_in = input_dim * filter_size**2 / (stride**2)
         fan_out = output_dim * filter_size**2
