@@ -31,7 +31,9 @@ def Conv2D(name, input_dim, output_dim, filter_size, inputs, he_init=True, mask_
 
             mask = np.ones(
                 (filter_size, filter_size, input_dim, output_dim), 
-                dtype='float32'
+                dtype='int32'
+            )
+            #  dtype='float32'
             )
             center = filter_size // 2
 
