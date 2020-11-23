@@ -5,7 +5,7 @@ import time
 def make_generator(path, n_files, batch_size):
     epoch_count = [1]
     def get_epoch():
-        images = np.zeros((batch_size, 64, 64, 3), dtype='int32')
+        images = np.zeros((batch_size, 3, 64, 64), dtype='int32')
         files = range(n_files)
         random_state = np.random.RandomState(epoch_count[0])
         random_state.shuffle(files)
@@ -17,7 +17,7 @@ def make_generator(path, n_files, batch_size):
                 yield (images,)
     return get_epoch
 
-def load(batch_size, data_dir='/home/ishaan/data/imagenet64'):
+def load(batch_size, data_dir='/content/drive/MyDrive/data/dataset_chairs/chairs_folder/chairs_64x64' ):
     return (
         make_generator(data_dir+'/train_64x64', 5422, batch_size),
         make_generator(data_dir+'/valid_64x64', 1355, batch_size)
