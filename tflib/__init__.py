@@ -28,7 +28,7 @@ def param(name, *args, **kwargs):
     result = _params[name]
     i = 0
     while result in _param_aliases:
-        # print 'following alias {}: {} to {}'.format(i, result, _param_aliases[result])
+        print ('following alias {}: {} to {}'.format(i, result, _param_aliases[result]))
         i += 1
         result = _param_aliases[result]
     return result
